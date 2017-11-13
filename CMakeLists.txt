@@ -7,7 +7,10 @@ set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTOUIC ON)
 find_package(Qt5Widgets REQUIRED)
 
-#qt5_wrap_ui(UI_HEADERS MainWindow.ui)
 
-add_executable(tree-o-grow main.cpp MainWindow.cpp ${UI_HEADERS})
+add_executable(tree-o-grow
+  main.cpp
+  MainWindow.cpp
+  TreeDrawingWidget.cpp
+  ${UI_HEADERS})
 qt5_use_modules(tree-o-grow Widgets)
