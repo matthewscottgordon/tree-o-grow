@@ -14,3 +14,8 @@ add_executable(tree-o-grow
   TreeDrawingWidget.cpp
   ${UI_HEADERS})
 qt5_use_modules(tree-o-grow Widgets)
+
+add_custom_target( run
+  ./tree-o-grow
+  DEPENDS tree-o-grow
+  WORKING_DIRECTORY ${CURRENT_BUILD_DIRECTORY})
