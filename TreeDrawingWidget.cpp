@@ -6,16 +6,25 @@
 #include <cassert>
 #include <iostream>
 
+static constexpr GLint VERTICES_PER_TRIANGLE = 3;
+static constexpr GLint ELEMENTS_PER_VERTEX = 3;
+static constexpr GLint TEST_TREE_NUM_TRIANGLES = 4;
+static constexpr GLint TEST_TREE_BUFFER_LENGTH =
+    ELEMENTS_PER_VERTEX * VERTICES_PER_TRIANGLE * TEST_TREE_NUM_TRIANGLES;
+
 static constexpr const GLchar *vertexShaderSource = R""""(
     #version 330 core
  
-    //uniform mat4 projectionModelViewMatrix;
+    const mat4 projectionModelViewMatrix = mat4( 1,  0,  0,  0,
+                                                 0,  0, -1,  0,
+                                                 0,  1,  0,  0,
+                                                 0,  0,  0,  1 );
  
     in vec3 position;
  
     void main()
     {
-        gl_Position = /*projectionModelViewMatrix * */vec4(position, 1.0);
+        gl_Position = projectionModelViewMatrix * vec4(position, 1.0);
     }
     )"""";
 
@@ -51,10 +60,19 @@ void TreeDrawingWidget::initializeGL()
     glBindVertexArray(m_treeVao);
     glGenBuffers( 1, &m_treeVertexBuffer );
     glBindBuffer( GL_ARRAY_BUFFER, m_treeVertexBuffer );
-    static const float testTreeVertices[3*3] = {
-        0.0, 0.0, 0.0,
-        1.0, 0.0, 0.0,
-        0.0, 1.0, 0.0 };
+    static const float testTreeVertices[TEST_TREE_BUFFER_LENGTH] = {
+         0.0,  0.0, 0.0,
+         0.0,  0.0, 1.0,
+         0.5,  0.0, 0.0,
+         0.0,  0.0, 0.0,
+         0.0,  0.0, 1.0,
+        -0.5,  0.0, 0.0,
+         0.0,  0.0, 0.0,
+         0.0,  0.0, 1.0,
+         0.0,  0.5, 0.0,
+         0.0,  0.0, 0.0,
+         0.0,  0.0, 1.0,
+         0.0, -0.5, 0.0 };
     glBufferData(GL_ARRAY_BUFFER, sizeof(testTreeVertices), testTreeVertices, GL_STATIC_DRAW);
     glEnableVertexAttribArray(m_positionAttribLocation);
     glVertexAttribPointer( m_positionAttribLocation, 3, GL_FLOAT, GL_FALSE, 0, (void*)0 );
@@ -73,7 +91,7 @@ void TreeDrawingWidget::paintGL()
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     
     glBindVertexArray(m_treeVao);
-    glDrawArrays(GL_TRIANGLES, 0, 3);
+    glDrawArrays(GL_TRIANGLES, 0, VERTICES_PER_TRIANGLE*TEST_TREE_NUM_TRIANGLES);
 }
 
 
