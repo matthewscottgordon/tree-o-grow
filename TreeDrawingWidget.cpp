@@ -8,7 +8,7 @@
 
 static constexpr GLint VERTICES_PER_TRIANGLE = 3;
 static constexpr GLint ELEMENTS_PER_VERTEX = 3;
-static constexpr GLint TEST_TREE_NUM_TRIANGLES = 4;
+static constexpr GLint TEST_TREE_NUM_TRIANGLES = 2;
 static constexpr GLint TEST_TREE_BUFFER_LENGTH =
     ELEMENTS_PER_VERTEX * VERTICES_PER_TRIANGLE * TEST_TREE_NUM_TRIANGLES;
 
@@ -61,16 +61,10 @@ void TreeDrawingWidget::initializeGL()
     glGenBuffers( 1, &m_treeVertexBuffer );
     glBindBuffer( GL_ARRAY_BUFFER, m_treeVertexBuffer );
     static const float testTreeVertices[TEST_TREE_BUFFER_LENGTH] = {
-         0.0,  0.0, 0.0,
-         0.0,  0.0, 1.0,
          0.5,  0.0, 0.0,
-         0.0,  0.0, 0.0,
          0.0,  0.0, 1.0,
         -0.5,  0.0, 0.0,
-         0.0,  0.0, 0.0,
-         0.0,  0.0, 1.0,
          0.0,  0.5, 0.0,
-         0.0,  0.0, 0.0,
          0.0,  0.0, 1.0,
          0.0, -0.5, 0.0 };
     glBufferData(GL_ARRAY_BUFFER, sizeof(testTreeVertices), testTreeVertices, GL_STATIC_DRAW);
