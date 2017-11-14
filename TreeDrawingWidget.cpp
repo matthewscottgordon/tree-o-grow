@@ -1,8 +1,5 @@
 #include "TreeDrawingWidget.h"
 
-#include "TreeLines.frag.h"
-#include "TreeLines.vert.h"
-
 #include <cassert>
 #include <iostream>
 
