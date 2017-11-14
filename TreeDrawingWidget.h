@@ -4,6 +4,7 @@
 #include <QOpenGLWidget>
 #include <QOpenGLFunctions_3_3_Core>
 
+
 class TreeDrawingWidget : public QOpenGLWidget, protected QOpenGLFunctions_3_3_Core
 {
 public:
@@ -21,7 +22,8 @@ private:
     GLuint m_treeVertexBuffer;
 
     GLuint m_shaderProgram;
-    GLuint m_positionAttribLocation = 0;
+    GLuint m_positionAttribLocation;
+    GLuint m_projectionModelViewMatrixLocation;
 };
 
 #endif

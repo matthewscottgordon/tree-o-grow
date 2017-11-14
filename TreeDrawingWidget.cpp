@@ -1,5 +1,7 @@
 #include "TreeDrawingWidget.h"
 
+#include "Matrix.h"
+
 #include <cassert>
 #include <iostream>
 
@@ -12,10 +14,7 @@ static constexpr GLint TEST_TREE_BUFFER_LENGTH =
 static constexpr const GLchar *vertexShaderSource = R""""(
     #version 330 core
  
-    const mat4 projectionModelViewMatrix = mat4( 1,  0,  0,  0,
-                                                 0,  0, -1,  0,
-                                                 0,  1,  0,  0,
-                                                 0,  0,  0,  1 );
+    uniform mat4 projectionModelViewMatrix;
  
     in vec3 position;
  
@@ -78,6 +77,12 @@ void TreeDrawingWidget::resizeGL( int width, int height )
 void TreeDrawingWidget::paintGL()
 {
     glUseProgram(m_shaderProgram);
+    Matrix<4,4,float> m_rotationMatrix( 1.0f,  0.0f,  0.0f,  0.0f,
+                                        0.0f,  0.0f, -1.0f,  0.0f,
+                                        0.0f,  1.0f,  0.0f,  0.0f,
+                                        0.0f,  0.0f,  0.0f,  1.0f );
+    glUniformMatrix4fv( m_projectionModelViewMatrixLocation, 1, GL_FALSE,
+                        m_rotationMatrix.data() );
     
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     
@@ -123,6 +128,8 @@ void TreeDrawingWidget::compileShaders()
     assert(success!=GL_FALSE);
 
     m_positionAttribLocation = glGetAttribLocation( m_shaderProgram, "position" );
+    m_projectionModelViewMatrixLocation = glGetUniformLocation( m_shaderProgram,
+                                                                "projectionModelViewMatrix" );
 
     glDeleteShader(vertexShader);
     glDeleteShader(fragmentShader);
