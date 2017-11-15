@@ -77,12 +77,13 @@ void TreeDrawingWidget::resizeGL( int width, int height )
 void TreeDrawingWidget::paintGL()
 {
     glUseProgram(m_shaderProgram);
-    Matrix<4,4,float> m_rotationMatrix( 1.0f,  0.0f,  0.0f,  0.0f,
-                                        0.0f,  0.0f, -1.0f,  0.0f,
-                                        0.0f,  1.0f,  0.0f,  0.0f,
-                                        0.0f,  0.0f,  0.0f,  1.0f );
+    //Matrix<4,4,float> m_rotationMatrix( 1.0f,  0.0f,  0.0f,  0.0f,
+    //                                    0.0f,  0.0f, -1.0f,  0.0f,
+    //                                    0.0f,  1.0f,  0.0f,  0.0f,
+    //                                    0.0f,  0.0f,  0.0f,  1.0f );
+    Matrix<4,4,float> rotationMatrix = makeRotationMatrix( Vector<3,float>(1.0f, 0.0f, 0.0f), 1.0f );
     glUniformMatrix4fv( m_projectionModelViewMatrixLocation, 1, GL_FALSE,
-                        m_rotationMatrix.data() );
+                        rotationMatrix.data() );
     
     glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
     
